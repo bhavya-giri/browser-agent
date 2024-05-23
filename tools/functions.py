@@ -256,36 +256,8 @@ def get_clean_html_tool() -> str:
     global global_driver
     if global_driver is None:
         return "Web agent is not initialized."
-    
-    def clean_text(text: str) -> str:
-        return ' '.join(text.split())
-
-    def get_readable_attributes(element: webdriver.remote.webelement.WebElement) -> Dict[str, str]:
-        readable_attributes = [
-            'id', 'class', 'title', 'alt', 'href', 'placeholder', 'label',
-            'value', 'caption', 'summary', 'aria-label', 'aria-describedby',
-            'datetime', 'download', 'selected', 'checked', 'type'
-        ]
-        attributes = {}
-        for attr in readable_attributes:
-            if element.get_attribute(attr):
-                attributes[attr] = element.get_attribute(attr)
-        return attributes
-    
-    def traverse_element(element: webdriver.remote.webelement.WebElement) -> Dict[str, Any]:
-        node_name = element.tag_name.lower()
-        node_value = clean_text(element.get_attribute('innerText')) if element.text else None
-        attributes = get_readable_attributes(element)
-        children = [traverse_element(child) for child in element.find_elements(By.XPATH, './*')]
-        return {
-            'nodeName': node_name,
-            'nodeValue': node_value,
-            'attributes': attributes,
-            'children': children
-        }
     try:
-        dom_structure = traverse_element(global_driver.find_element(By.TAG_NAME, 'body'))
-        return json.dumps(dom_structure, indent=2)
+        return json.dumps(global_driver.page_source[2000], indent=2)
     except WebDriverException as e:
         return f"Error retrieving page source: {str(e)}"
 
