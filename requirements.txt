@@ -1,0 +1,5 @@
+selenium
+llama-inde
+llama-index-llms-openai
+python-dotenv
+webdriver-manager
