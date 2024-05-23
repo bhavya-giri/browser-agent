@@ -119,6 +119,19 @@ def handle_task_tool(steps: List[Dict[str, Any]]) -> str:
             type_text_tool(by, value, text)
     return "Task handled."
 
+def wait_for_page_load():
+    """
+    Waits for the page to fully load.
+    """
+    global global_driver
+    if global_driver is None:
+        return "Web agent is not initialized."
+
+    # Wait for the page to finish loading
+    return global_driver.execute_script(
+        "return document.readyState"
+    ) == "complete"
+    
 def get_clean_html_tool() -> str:
     """
     Retrieves a clean HTML representation of the current DOM in the webpage.
@@ -126,6 +139,9 @@ def get_clean_html_tool() -> str:
     Returns:
         str: The clean HTML representation of the DOM.
     """
+    if not wait_for_page_load():
+        return "Failed to load the page."
+    
     global global_driver
     if global_driver is None:
         return "Web agent is not initialized."
