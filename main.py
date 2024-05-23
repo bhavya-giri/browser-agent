@@ -1,10 +1,10 @@
 from llama_index.llms.openai import OpenAI
-from llama_index.core.tools import FunctionTool
 from llama_index.core.agent import FunctionCallingAgentWorker
 from config import config
 from tools.tools import *
+from tools.functions import create_web_agent
 
-create_web_agent_tool()
+create_web_agent()
 
 llm = OpenAI(model='gpt-4o',api_key=config.OPENAI_API_KEY)
 
@@ -17,9 +17,12 @@ agent_worker = FunctionCallingAgentWorker.from_tools(
     llm=llm,
     verbose=True,
     allow_parallel_tool_calls=True,
+    system_prompt='''You are an interaction agent. You help users with their requests. \
+                    You can take a websites DOM and understand what action to take next. The available \
+                    actions are "click" and "type". For links and buttons, return click and for inputs, return type.  '''
 )
 agent = agent_worker.as_agent()
 
 if __name__ == "__main__":
-    response = agent.chat(f"open url, 'https://www.google.com'")
+    response = agent.query(f"open youtube search and open the video 'introducing GPT-4o' ")
     print(response)
