@@ -90,7 +90,7 @@ Run the main.py
     dom_structure = traverse_element(body)
     return json.dumps(dom_structure, indent=2)
     ```
-
+- OCR for elements
 - More tools are always welcomed
 
 
