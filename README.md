@@ -1,5 +1,5 @@
 
-# browser-agent: Agent Orchestration for Surfing
+# Browser-Agent: Agent Orchestration for Surfing
 
 This project provides a set of tools for orchestrating agents that interact with web browsers using Selenium WebDriver and LlamaIndex. The toolkit includes functions to create a web agent, open URLs, click elements, type text and various other tools.
 
